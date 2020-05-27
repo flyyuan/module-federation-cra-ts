@@ -1,0 +1,1 @@
+# Using Module Federation with Create React APP and TypeScript, Webpack 4
