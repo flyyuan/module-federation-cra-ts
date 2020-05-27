@@ -46,7 +46,7 @@ module.exports = {
       exposes: {
         graph1: "./src/graph1",
       },
-      shared: ["react", "recoil", "@emotion/core", "emotion-theming"],
+      shared: ["react"],
     }),
   ],
 };
