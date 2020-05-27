@@ -47,14 +47,16 @@ const useDynamicScript = (url: string) => {
   };
 };
 
-const RemoteReactComponent = ({ url, scope, module, ...props }
-  :{url:string,scope:any,module:string, props?:any}) => {
+const RemoteReactComponent = ({ url, scope, module, props }
+  :{url:string,scope:string,module:string, props?:any}) => {
   const { ready, failed } = useDynamicScript(url);
   
   // 解决依赖版本冲突，让远程 Module 依赖使用当前项目依赖版本。冲突场景：远程 Module 的依赖版本 与当前项目不一致
   if (ready) {
+    // 获取当前项目依赖
     const o = (global as any).__webpack_require__ ? (global as any).__webpack_require__.o : {};
     (window as any)[scope].override(
+      // 使用当前项目依赖覆盖远程 Module 依赖
       Object.assign(
         {
           react: () => Promise.resolve().then(() => () => require("react")),
@@ -82,6 +84,7 @@ const RemoteReactComponent = ({ url, scope, module, ...props }
         return Module;
       })
   );
+  console.log({...props})
   return (
     <React.Suspense fallback="Loading System">
       <Component {...props} />
@@ -96,6 +99,7 @@ function App() {
       url="http://localhost:3001/graph1/remoteEntry.js"
       scope="graph1"
       module="graph1"
+      props={{number:'46546',name:'sdasdas'}}
       />
     </div>
   );
